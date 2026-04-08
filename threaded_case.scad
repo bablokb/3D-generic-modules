@@ -38,13 +38,44 @@ module case_supports(x,y,w,h) {
 
 // --- thread pockets   -------------------------------------------------------
 
-module case_pockets(x, y, h, w, offset, ruthex) {
-  xflip_copy() yflip_copy()
-    move([-x+offset,-y+offset,h]) {
-     if (ruthex) {
-       ruthex25(do_extra=w/2);
-    } else {
-       nc25(d_extra=w/2);
+module case_pockets(x, y, h, w, offset, ruthex, screws = [1,1,1,1]) {
+  x_off  = x/2 - offset;
+  y_off  = y/2 - offset;
+
+  if (screws[0]) {
+    move([-x_off,+y_off,h]) {
+      if (ruthex) {
+         ruthex25(do_extra=w/2);
+      } else {
+         nc25(d_extra=w/2);
+      }
+    }
+  }
+  if (screws[1]) {
+    move([+x_off,+y_off,h]) {
+      if (ruthex) {
+         ruthex25(do_extra=w/2);
+      } else {
+         nc25(d_extra=w/2);
+      }
+    }
+  }
+  if (screws[2]) {
+    move([+x_off,-y_off,h]) {
+      if (ruthex) {
+         ruthex25(do_extra=w/2);
+      } else {
+         nc25(d_extra=w/2);
+      }
+    }
+  }
+  if (screws[3]) {
+    move([-x_off,-y_off,h]) {
+      if (ruthex) {
+         ruthex25(do_extra=w/2);
+      } else {
+         nc25(d_extra=w/2);
+      }
     }
   }
 }
@@ -52,16 +83,18 @@ module case_pockets(x, y, h, w, offset, ruthex) {
 // --- threaded-case composite object   ---------------------------------------
 
 module case_threaded(x_pcb, y_pcb, z_case=0, z_pcb=1.6, 
-                      z_base=BT, wall=W4, rounding=3, ruthex=true) {
+                      z_base=BT, wall=W4, rounding=3,
+                                             ruthex=true, screws = [1,1,1,1]) {
   // case and all supports
   x_case = x_pcb + 2*wall + GAP;
   y_case = y_pcb + 2*wall + GAP;
   case_base(x_case, y_case, z_case, z_base, wall, rounding);
-  case_supports(x_case/2, y_case/2, wall, h=z_case-z_pcb+z_base);
-  top_half()
-    case_pockets(x_pcb/2, y_pcb/2,
+  top_half() {
+    case_supports(x_case/2, y_case/2, wall, h=z_case-z_pcb+z_base);
+    case_pockets(x_pcb, y_pcb,
                  h=z_case-z_pcb+z_base, w=wall,
-                 offset=rounding, ruthex=ruthex);
+                 offset=rounding, ruthex=ruthex, screws = screws);
+  }
 }
 
-//case_threaded(80,50,20, ruthex=false);
+//case_threaded(80,50,20, ruthex=false, screws=[1,1,0,1]);
