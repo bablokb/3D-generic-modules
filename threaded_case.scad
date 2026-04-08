@@ -19,7 +19,7 @@ module case_base(x, y, z, b, w, r) {
   // base plate
   cuboid([x,y,b], rounding=r, edges="Z", anchor=BOTTOM+CENTER);
   // sides
-  rect_tube(size=[x,y], wall=w, h=b+z,
+  rect_tube(size=[x,y], wall=w, h=z,
             rounding=r, anchor=BOTTOM+CENTER);
 }
 
@@ -90,9 +90,9 @@ module case_threaded(x_pcb, y_pcb, z_case=0, z_pcb=1.6,
   y_case = y_pcb + 2*wall + GAP;
   case_base(x_case, y_case, z_case, z_base, wall, rounding);
   top_half() {
-    case_supports(x_case/2, y_case/2, wall, h=z_case-z_pcb+z_base);
+    case_supports(x_case/2, y_case/2, wall, h=z_case-z_pcb);
     case_pockets(x_pcb, y_pcb,
-                 h=z_case-z_pcb+z_base, w=wall,
+                 h=z_case-z_pcb, w=wall,
                  offset=rounding, ruthex=ruthex, screws = screws);
   }
 }
