@@ -16,7 +16,7 @@ NC_SIZE_25 = "M2.5x1,2.5";  // size as defined by BOSL
 NC_D_25    = 7.2;           // outer dimension of fase
 NC_NH_25   = 2.2;           // height of nut
 NC_CH_25   = 6.7;           // height of connector without fase
-NC_SLOP_25 = GAP;           // slop for nut and screw-hole
+NC_SLOP_25 = 0.5*GAP;       // slop for nut and screw-hole
 
 // --- ruthex thread pocket   ------------------------------------------------
 
