@@ -58,9 +58,10 @@ module case_threaded(x_pcb, y_pcb, z_case=0, z_pcb=1.6,
   y_case = y_pcb + 2*wall + GAP;
   case_base(x_case, y_case, z_case, z_base, wall, rounding);
   case_supports(x_case/2, y_case/2, wall, h=z_case-z_pcb+z_base);
-  case_pockets(x_pcb/2, y_pcb/2,
-               h=z_case-z_pcb+z_base, w=wall,
-               offset=rounding, ruthex=ruthex);
+  top_half()
+    case_pockets(x_pcb/2, y_pcb/2,
+                 h=z_case-z_pcb+z_base, w=wall,
+                 offset=rounding, ruthex=ruthex);
 }
 
 //case_threaded(80,50,20, ruthex=false);
